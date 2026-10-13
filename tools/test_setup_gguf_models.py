@@ -100,8 +100,9 @@ class Estimates(unittest.TestCase):
         self.assertIn("fits by setup's estimate (~21 GB of RAM", setup.poly_verdict(d, 32, 8.0, False))
         self.assertIn("read from the SSD", setup.poly_verdict(d, 12, 8.0, False))
         self.assertIn("does not fit", setup.poly_verdict(d, 64, 6.0, False))
-        self.assertIn("AMD", setup.poly_verdict(d, 64, 24.0, True))
+        self.assertNotIn("does not run", setup.poly_verdict(d, 64, 24.0, True))   # #11: AMD Linux runs it
         with mock.patch.object(setup, "WIN", True):     # a family that has run on Windows is not said to be untried
+            self.assertIn("AMD", setup.poly_verdict(d, 64, 24.0, True))           # only AMD on Windows is left out
             self.assertIn("not tried on Windows", setup.poly_verdict(d, 32, 8.0, False))
             self.assertNotIn("not tried on Windows", setup.poly_verdict(d, 32, 8.0, False, True))
 
