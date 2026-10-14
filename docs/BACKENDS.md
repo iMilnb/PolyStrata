@@ -14,7 +14,7 @@ a second machine, a Windows laptop whose card has 8 GB.
 | --- | --- | --- | --- | --- |
 | Qwen3.8-Flash-Next and fine-tunes | `qwen4exp` | `strata` | the packs setup builds | separate MTP model |
 | GLM 5.3 Flash | `glm5-next` | `strata-poly` | GSQ-RCO 3.0bit, REAP50-Q3_K_M, UD-IQ2_XXS | draft block |
-| Qwen3.6-35B-A3B | `qwen35moe` | `strata-poly` | Unsloth UD-Q3_K_M, UD-Q2_K_XL and UD-Q4_K_M, 12.6 to 22.7 GB | draft block in the file |
+| Qwen3.6-35B-A3B | `qwen35moe` | `strata` (was `strata-poly`) | Unsloth UD-Q3_K_M, UD-Q2_K_XL and UD-Q4_K_M, 12.6 to 22.7 GB | draft block in the file |
 | Ornith 1.5 35B-A3B | `qwen35moe` | `strata-poly` | APEX-MTP-I-Compact, I-Mini and I-Quality, 14.4 to 23.7 GB | draft block in the file |
 | Gemma 4 26B-A4B | `gemma4` | `strata-poly` | Unsloth UD-Q3_K_M, UD-Q2_K_XL and UD-Q4_K_M, 10.5 to 16.9 GB | its draft model, a file of 0.46 GB |
 | Tiel Coder 35B-A3B | `qwen35moe` | `strata-poly` | peculiar-ragdoll's UD-Q3_K_XL, UD-IQ3_XXS and UD-Q4_K_XL, 13.6 to 22.7 GB | draft block in the file |
@@ -22,6 +22,10 @@ a second machine, a Windows laptop whose card has 8 GB.
 `strata` is the first engine and runs Qwen3.8 only; nothing in it changed. `strata-poly` is the engine that reads a
 GGUF in place, and it now has three architectures. It was called `strata-glm`, after its first model; an install
 from then keeps its engine and moves to the new name the next time setup updates it.
+
+Qwen3.6-35B-A3B moved to `strata` when the upstream 0.1.44 release added its architecture there: `--family qwen36`
+now installs the native engine and its sizes (UD-Q4_K_XL, UD-Q6_K_XL, Q8_0). An install made before that keeps
+running on `strata-poly` with its own size (UD-Q2_K_XL, 12.6 GB, is not in the native family), untouched.
 
 ## Install
 

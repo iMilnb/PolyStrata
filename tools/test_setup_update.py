@@ -142,7 +142,8 @@ class SettingsLine(unittest.TestCase):
 
 
 class TailSkip(unittest.TestCase):
-    """A Qwen3.6 config from before its family got "tail_skip" gets --tail-skip on update, once the engine knows it."""
+    """A config of a family with "tail_skip" gets --tail-skip on update, once the engine knows it (0.1.42).
+    PolyStrata: no family has it since upstream's engine took Qwen3.6 over; the mechanism stays for old configs."""
 
     def upgraded(self, name, version, args=()):
         with tempfile.TemporaryDirectory() as d:
@@ -155,9 +156,6 @@ class TailSkip(unittest.TestCase):
             with contextlib.redirect_stdout(io.StringIO()):
                 setup.poly_tail_skip(cfg, p)
             return json.loads(p.read_text(encoding="utf-8"))["args"]
-
-    def test_qwen36_gets_it(self):
-        self.assertEqual(self.upgraded("qwen3.6-35b-a3b-ud-q2_k_xl", "0.1.42")[-2:], ["--tail-skip", "6"])
 
     def test_an_older_engine_or_another_family_does_not(self):
         for name, version in (("qwen3.6-35b-a3b-ud-q3_k_m", "0.1.41"), ("ornith-1.5-35b-a3b-apex-i-compact", "0.1.42"),
